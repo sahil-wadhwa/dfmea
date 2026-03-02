@@ -9,9 +9,9 @@ st.set_page_config(page_title="DFMEA Configurator", layout="wide")
 # ======================================================
 username = os.environ["USERNAME"]
 
-base_path = rf"C:\Users\{username}\Vibracoustic\Group Chat Automation - Documents\General"
+base_path = rf"C:\Users\{username}\Vibracoustic\DFMEA_ESR - General\01_Project Handling\Bench mark parts"
 file_path = os.path.join(base_path, "data.xlsx")
-files_folder = os.path.join(base_path, "files")
+files_folder = os.path.join(base_path, "Wuxi Benchmarking")
 
 # ======================================================
 # 🔹 LOAD CONFIG
