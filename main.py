@@ -7,21 +7,28 @@ st.set_page_config(page_title="DFMEA Configurator", layout="wide")
 # ======================================================
 # 🔹 DYNAMIC USER PATH
 # ======================================================
-username = os.environ["USERNAME"]
+home = Path.home()
 
-base_path = rf"C:\Users\{username}\Vibracoustic\DFMEA_ESR - General\01_Project Handling\Bench mark parts"
-file_path = os.path.join(base_path, "data.xlsx")
-files_folder = os.path.join(base_path, "Wuxi Benchmarking")
+base_path = (
+    home
+    / "Vibracoustic"
+    / "DFMEA_ESR - General"
+    / "01_Project Handling"
+    / "Bench mark parts"
+)
+
+file_path = base_path / "data.xlsx"
+files_folder = base_path / "Wuxi Benchmarking"
 
 # ======================================================
 # 🔹 LOAD CONFIG
 # ======================================================
-if not os.path.exists(file_path):
-    st.error("Config file not found. Check OneDrive sync.")
+
+if not file_path.exists():
+    st.error(f"Config file not found at: {file_path}")
     st.stop()
 
 df = pd.read_excel(file_path).fillna("None")
-
 st.title("🔧 DFMEA Smart Configurator")
 
 st.sidebar.header("Configuration")
