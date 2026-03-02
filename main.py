@@ -46,6 +46,7 @@ username = st.session_state.username
 base_path = rf"C:\Users\{username}\Vibracoustic\DFMEA_ESR - General\01_Project Handling\Bench mark parts\Wuxi Benchmarking"
 
 file_path = os.path.join(base_path, "data.xlsx")
+print(file_path)
 files_folder = os.path.join(base_path, "Bushing")
 
 # ======================================================
@@ -138,7 +139,7 @@ st.subheader("Result")
 if len(filtered_df) == 1:
 
     row = filtered_df.iloc[0]
-    file_name = row["FileName"]
+    file_name = row["FileURL"]
 
     full_file_path = os.path.join(files_folder, file_name)
 
