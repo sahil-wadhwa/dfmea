@@ -39,8 +39,8 @@ if st.sidebar.button("Logout"):
 # 🔹 FILE PATHS (DEPLOYMENT SAFE)
 # ======================================================
 
-file_path = Path("data.xlsx")
-files_folder = Path("Wuxi Benchmarking")
+file_path = Path("Wuxi Benchmarking/data.xlsx")
+files_folder = Path("Wuxi Benchmarking/Bushing/")
 
 if not file_path.exists():
     st.error("Config file (data.xlsx) not found in project folder.")
