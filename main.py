@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
-from pathlib import Path
+import os
 
 st.set_page_config(page_title="DFMEA Configurator", layout="wide")
 
 # ======================================================
-# 🔐 USER LOGIN (SESSION BASED)
+# 🔐 USER LOGIN (WINDOWS USERNAME INPUT)
 # ======================================================
 
 if "username" not in st.session_state:
@@ -14,7 +14,9 @@ if "username" not in st.session_state:
 if st.session_state.username is None:
     st.title("🔐 DFMEA Login")
 
-    username_input = st.text_input("Enter your username")
+    username_input = st.text_input(
+        "Enter your Windows Username (example: ext.swadhwa)"
+    )
 
     if st.button("Login"):
         if username_input.strip():
@@ -36,15 +38,31 @@ if st.sidebar.button("Logout"):
     st.rerun()
 
 # ======================================================
-# 🔹 FILE PATHS (DEPLOYMENT SAFE)
+# 🔹 BUILD HARD-CODED WINDOWS PATH
 # ======================================================
 
-file_path = Path("Wuxi Benchmarking/data.xlsx")
-files_folder = Path("Wuxi Benchmarking/Bushing/")
+username = st.session_state.username
 
-if not file_path.exists():
-    st.error("Config file (data.xlsx) not found in project folder.")
+base_path = rf"C:\Users\{username}\Vibracoustic\DFMEA_ESR - General\01_Project Handling\Bench mark parts\Wuxi Benchmarking"
+
+file_path = os.path.join(base_path, "data.xlsx")
+files_folder = os.path.join(base_path, "Bushing")
+
+# ======================================================
+# 🔹 VALIDATE PATH
+# ======================================================
+
+if not os.path.exists(base_path):
+    st.error(f"Base path not found:\n{base_path}")
     st.stop()
+
+if not os.path.exists(file_path):
+    st.error(f"Config file not found:\n{file_path}")
+    st.stop()
+
+# ======================================================
+# 🔹 LOAD CONFIG FILE
+# ======================================================
 
 df = pd.read_excel(file_path).fillna("None")
 
@@ -122,11 +140,11 @@ if len(filtered_df) == 1:
     row = filtered_df.iloc[0]
     file_name = row["FileName"]
 
-    full_file_path = files_folder / file_name
+    full_file_path = os.path.join(files_folder, file_name)
 
     st.success(f"Matched Configuration: {file_name}")
 
-    if full_file_path.exists():
+    if os.path.exists(full_file_path):
 
         with open(full_file_path, "rb") as f:
             file_bytes = f.read()
@@ -139,7 +157,7 @@ if len(filtered_df) == 1:
         )
 
     else:
-        st.error(f"File not found: {file_name}")
+        st.error(f"File not found:\n{full_file_path}")
 
 elif len(filtered_df) > 1:
     st.warning("Multiple matches found. Refine selection.")
