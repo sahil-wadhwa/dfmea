@@ -1,3 +1,4 @@
-os
-pandas
 streamlit
+pandas
+openpyxl
+requests
